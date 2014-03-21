@@ -10,6 +10,6 @@
 	<a href="signin">Sign in with Facebook</a>
 	<br>
 	<br>
-	<a href="ShowFriends">Show Friends</a>
+	<a href="ShowStats">Show Stats</a>
 </body>
 </html>
