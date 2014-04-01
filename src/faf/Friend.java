@@ -13,29 +13,102 @@ import facebook4j.internal.org.json.JSONObject;
 public class Friend {
 	
 	Facebook fb = new FacebookFactory().getInstance();
-
+	
+	private String uid;
+	private String name;
+	private String picSquare;
+	private String friendCount;
+	private String wallCount;
+	private String likesCount;
+	private String notesCount;
+	private String games;
+	
 	public Friend() {
-		// TODO Auto-generated constructor stub
+		setUid("");
+		setName("");
+		setPicSquare("");
+		setFriendCount("");
+		setWallCount("");
+		setLikesCount("");
+		setNotesCount("");
+		setGames("");
 	}
 	
-	public JSONArray getData() throws FacebookException, JSONException {
-		// Multiple FQL
-		Map<String, String> queries = new HashMap<String, String>();
-		
-		queries.put("User Counts", "SELECT uid, name, friend_count, likes_count, wall_count, notes_count, games, pic_square FROM user WHERE uid IN(SELECT uid2 FROM friend WHERE uid1 = me()");
-		queries.put("Photo Info", "SELECT aid, owner, name, photo_count FROM album WHERE aid IN(SELECT aid FROM album WHERE owner IN(SELECT uid2 FROM friend WHERE uid1 = me())) AND photo_count > 0");
-		queries.put("Checkin Info", "SELECT author_uid,  checkin_id FROM checkin WHERE author_uid IN(SELECT uid2 FROM friend WHERE uid1 = me()) OR tagged_uids IN(SELECT uid2 FROM friend WHERE uid1 = me())");
-		
-		Map<String, JSONArray> result = fb.executeMultiFQL(queries);
-		JSONArray userCountsJSONArray = result.get("User Counts");
-		for (int i = 0; i < userCountsJSONArray.length(); i++) {
-		    JSONObject jsonObject = userCountsJSONArray.getJSONObject(i);
-		    System.out.println(jsonObject.get("uid2"));
-		}
-		JSONArray myNameJSONArray = result.get("my name");
-		System.out.println(myNameJSONArray.getJSONObject(0).get("name"));
-		
-		return userCountsJSONArray;
+	public Friend(String uid, String name, String picSquare, String freindCount, String wallCount, String likesCount, String notesCount, String games) {
+		this.setUid(uid);
+		this.setName(name);
+		this.setPicSquare(picSquare);
+		this.setFriendCount(freindCount);
+		this.setWallCount(wallCount);
+		this.setLikesCount(likesCount);
+		this.setNotesCount(notesCount);
+		this.setGames(games);
 	}
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPicSquare() {
+		return picSquare;
+	}
+
+	public void setPicSquare(String picSquare) {
+		this.picSquare = picSquare;
+	}
+
+	public String getFriendCount() {
+		return friendCount;
+	}
+
+	public void setFriendCount(String friendCount) {
+		this.friendCount = friendCount;
+	}
+
+	public String getWallCount() {
+		return wallCount;
+	}
+
+	public void setWallCount(String wallCount) {
+		this.wallCount = wallCount;
+	}
+
+	public String getLikesCount() {
+		return likesCount;
+	}
+
+	public void setLikesCount(String likesCount) {
+		this.likesCount = likesCount;
+	}
+
+	public String getNotesCount() {
+		return notesCount;
+	}
+
+	public void setNotesCount(String notesCount) {
+		this.notesCount = notesCount;
+	}
+
+	public String getGames() {
+		return games;
+	}
+
+	public void setGames(String games) {
+		this.games = games;
+	}
+	
+	
 
 }
