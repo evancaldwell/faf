@@ -33,10 +33,24 @@ public class FriendListBuilder {
 		JSONArray checkinInfoJSONArray = result.get("checkin_info");
 		
 		for (int i=0; i<userCountsJSONArray.length(); i++) {
-			JSONObject obj =userCountsJSONArray.getJSONObject(i);
-			System.out.println(obj);
-			Friend f = new Friend(obj.uid, obj.name, obj.pic, obj.friend_count);
+			JSONObject obj = userCountsJSONArray.getJSONObject(i);
+			System.out.println("userconts obj: " + obj);
+			System.out.println("obj uid: " + obj.get("uid"));
+			Friend f = new Friend(obj.get("uid"), 
+								  obj.get("name"), 
+								  obj.get("pic_square"), 
+								  obj.get("friend_count"), 
+								  obj.get("wall_count"),
+								  obj.get("likes_count"),
+								  obj.get("notes_count"),
+								  obj.get("games"));
 			friends.put(f.getUid(), f);
+		}
+		for (int i=0; i<photoInfoJSONArray.length(); i++) {
+			//TODO: loop through photos and count them up
+		}
+		for (int i=0; i<checkinInfoJSONArray.length(); i++) {
+			//TODO: loop through checkins and add them up
 		}
 		
 //		for (int i = 0; i < userCountsJSONArray.length(); i++) {
