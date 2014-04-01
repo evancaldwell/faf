@@ -13,11 +13,12 @@ import facebook4j.FacebookException;
 import facebook4j.Friend;
 import facebook4j.ResponseList;
 import facebook4j.internal.org.json.JSONArray;
+import facebook4j.internal.org.json.JSONException;
 
 /**
  * Servlet implementation class ShowFriends
  */
-@WebServlet("/ShowFriends")
+@WebServlet("/ShowStats")
 public class ShowStats extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -35,18 +36,27 @@ public class ShowStats extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// get a new Facebook instance from the session
 		Facebook fb = (Facebook) request.getSession().getAttribute("fb");
-		Class<Friend> friend = new Friend();
+		FriendListBuilder flb = new FriendListBuilder();
 		
-		JSONArray userCounts;
 		try {
-			userCounts = Friend.;
-			for (Friend friend : friendList) {
-				// process friend stuff
-			}
-		} catch (FacebookException e) {
+			JSONArray friendList = flb.getData(fb);
+			System.out.println("ShowStats friend list: " + friendList);
+		} catch (FacebookException | JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+//		Friend friend = new Friend();		
+//		JSONArray userCounts;
+//		try {
+//			userCounts = Friend.;
+//			for (Friend friend : friendList) {
+//				// process friend stuff
+//			}
+//		} catch (FacebookException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	/**
