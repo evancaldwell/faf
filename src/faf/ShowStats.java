@@ -1,6 +1,7 @@
 package faf;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,24 +40,11 @@ public class ShowStats extends HttpServlet {
 		FriendListBuilder flb = new FriendListBuilder();
 		
 		try {
-			JSONArray friendList = flb.getData(fb);
-			System.out.println("ShowStats friend list: " + friendList);
+			Map<String, faf.Friend> friendList = flb.getData(fb);
 		} catch (FacebookException | JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-//		Friend friend = new Friend();		
-//		JSONArray userCounts;
-//		try {
-//			userCounts = Friend.;
-//			for (Friend friend : friendList) {
-//				// process friend stuff
-//			}
-//		} catch (FacebookException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 	}
 
 	/**

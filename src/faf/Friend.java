@@ -22,6 +22,10 @@ public class Friend {
 	private String likesCount;
 	private String notesCount;
 	private String games;
+	private int gameCount;
+	private String photoCount;
+	private String checkinCount;
+	private int score;
 	
 	public Friend() {
 		setUid("");
@@ -32,9 +36,13 @@ public class Friend {
 		setLikesCount("");
 		setNotesCount("");
 		setGames("");
+		setGameCount(0);
+		setPhotoCount("0");
+		setCheckinCount("0");
+		setScore(0);
 	}
 	
-	public Friend(String uid, String name, String picSquare, String freindCount, String wallCount, String likesCount, String notesCount, String games) {
+	public Friend(String uid, String name, String picSquare, String freindCount, String wallCount, String likesCount, String notesCount, String games, int gameCount, String photoCount, String checkinCount, int score) {
 		this.setUid(uid);
 		this.setName(name);
 		this.setPicSquare(picSquare);
@@ -43,6 +51,10 @@ public class Friend {
 		this.setLikesCount(likesCount);
 		this.setNotesCount(notesCount);
 		this.setGames(games);
+		this.setGameCount(gameCount);
+		this.setPhotoCount(photoCount);
+		this.setCheckinCount(checkinCount);
+		this.setScore(score);
 	}
 
 	public String getUid() {
@@ -107,6 +119,38 @@ public class Friend {
 
 	public void setGames(String games) {
 		this.games = games;
+	}
+
+	public String getPhotoCount() {
+		return photoCount;
+	}
+
+	public void setPhotoCount(String photoCount2) {
+		this.photoCount = photoCount2;
+	}
+
+	public String getCheckinCount() {
+		return checkinCount;
+	}
+
+	public void setCheckinCount(String checkinCount) {
+		this.checkinCount = checkinCount;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public int getGameCount() {
+		return gameCount;
+	}
+
+	public void setGameCount(int gameCount) {
+		this.gameCount = gameCount;
 	}
 	
 	
