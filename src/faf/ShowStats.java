@@ -38,13 +38,17 @@ public class ShowStats extends HttpServlet {
 		// get a new Facebook instance from the session
 		Facebook fb = (Facebook) request.getSession().getAttribute("fb");
 		FriendListBuilder flb = new FriendListBuilder();
+		Map<String, faf.Friend> friendList;
 		
 		try {
-			Map<String, faf.Friend> friendList = flb.getData(fb);
+			friendList = flb.getData(fb);
+			request.setAttribute("fl", friendList);
 		} catch (FacebookException | JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		request.getRequestDispatcher("/displayFriends.jsp").forward(request, response);
 	}
 
 	/**
