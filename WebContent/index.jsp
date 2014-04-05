@@ -8,8 +8,8 @@
 </head>
 <body>
 	<a href="signin">Sign in with Facebook</a>
+	<!-- <br>
 	<br>
-	<br>
-	<a href="ShowStats">Show Stats</a>
+	<a href="ShowStats">Show Stats</a> -->
 </body>
 </html>

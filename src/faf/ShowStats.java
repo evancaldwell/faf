@@ -2,6 +2,7 @@ package faf;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.SortedSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,10 +39,10 @@ public class ShowStats extends HttpServlet {
 		// get a new Facebook instance from the session
 		Facebook fb = (Facebook) request.getSession().getAttribute("fb");
 		FriendListBuilder flb = new FriendListBuilder();
-		Map<String, faf.Friend> friendList;
+		SortedSet<faf.Friend> friendList;
 		
 		try {
-			friendList = flb.getData(fb);
+			friendList = flb.getSortedFriends(fb);
 			request.setAttribute("fl", friendList);
 		} catch (FacebookException | JSONException e) {
 			// TODO Auto-generated catch block

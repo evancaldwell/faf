@@ -12,7 +12,8 @@
 	<div>
 		<h2>Facebook Annoying Friends Rankings:</h2>
 		<c:forEach items="${fl}" var="friend">
-			<p>${friend.name}</p>
+			<img src="${friend.picSquare}">
+			<p>${friend.name} | score: ${friend.score}</p>
 		</c:forEach>
 	</div>
 </body>

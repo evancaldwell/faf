@@ -1,7 +1,12 @@
 package faf;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import facebook4j.Facebook;
 import facebook4j.FacebookException;
@@ -90,8 +95,35 @@ public class FriendListBuilder {
 			int cc = (friend.getCheckinCount() != "null") ? Integer.parseInt(friend.getCheckinCount()) : 0;
 			
 			friend.setScore(fc+wc+lc+nc+gc+pc+cc);
-			System.out.println("name: " + friend.getName() + " | score: " + friend.getScore());
+			System.out.println("name: " + friend.getName() + 
+							   " | " + fc + 
+							   " | " + wc + 
+							   " | " + lc + 
+							   " | " + nc + 
+							   " | " + gc + 
+							   " | " + pc + 
+							   " | " + cc +
+							   " | score: " + friend.getScore());
 		}
+	}
+	
+	public SortedSet<Friend> getSortedSet (Map<String, Friend> map) {
+		SortedSet<Friend> set = new TreeSet<Friend>();
+
+		for (Map.Entry<String, Friend> entry : map.entrySet())
+		{
+			set.add(entry.getValue());
+		}
+		
+		return set;
+	
+	}
+	
+	public SortedSet<Friend> getSortedFriends (Facebook fb) throws FacebookException, JSONException {
+		Map <String, Friend> m = getData(fb);
+		SortedSet<Friend> s = getSortedSet(m);
+		
+		return s;
 	}
 
 }

@@ -1,5 +1,6 @@
 package faf;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import facebook4j.internal.org.json.JSONArray;
 import facebook4j.internal.org.json.JSONException;
 import facebook4j.internal.org.json.JSONObject;
 
-public class Friend {
+public class Friend implements Comparable<Friend> {
 	
 	Facebook fb = new FacebookFactory().getInstance();
 	
@@ -151,6 +152,12 @@ public class Friend {
 
 	public void setGameCount(int gameCount) {
 		this.gameCount = gameCount;
+	}
+
+	@Override
+	public int compareTo(Friend f) {
+		// TODO Auto-generated method stub
+		return f.score - score;
 	}
 	
 	
