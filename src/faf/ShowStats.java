@@ -16,6 +16,7 @@ import facebook4j.Friend;
 import facebook4j.ResponseList;
 import facebook4j.internal.org.json.JSONArray;
 import facebook4j.internal.org.json.JSONException;
+import facebook4j.internal.org.json.JSONObject;
 
 /**
  * Servlet implementation class ShowFriends
@@ -38,10 +39,12 @@ public class ShowStats extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// get a new Facebook instance from the session
 		Facebook fb = (Facebook) request.getSession().getAttribute("fb");
+		JSONObject me;
 		FriendListBuilder flb = new FriendListBuilder();
 		SortedSet<faf.Friend> friendList;
 		
 		try {
+			
 			friendList = flb.getSortedFriends(fb);
 			request.setAttribute("fl", friendList);
 		} catch (FacebookException | JSONException e) {

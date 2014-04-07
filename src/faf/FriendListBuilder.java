@@ -18,9 +18,69 @@ import facebook4j.internal.org.json.JSONObject;
 public class FriendListBuilder {
 	
 	Map <String, Friend> friends = new HashMap <String, Friend>();
+	Map <String, Friend> user = new HashMap <String, Friend>();
 	
 	public FriendListBuilder() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Map<String, Friend> getMe(Facebook fb) throws FacebookException, JSONException {
+		// Multiple FQL
+		Map<String, String> queries = new HashMap<String, String>();
+		
+		queries.put("my_counts", "SELECT uid, name, friend_count, likes_count, wall_count, notes_count, games, pic_square FROM user WHERE uid = me()");
+		queries.put("my_photos", "SELECT aid, owner, name, photo_count FROM album WHERE aid IN(SELECT aid FROM album WHERE owner = me()) AND photo_count > 0");
+		queries.put("my_checkins", "SELECT author_uid,  checkin_id FROM checkin WHERE author_uid = me() OR tagged_uids = me()");
+		
+		Map<String, JSONArray> result = fb.executeMultiFQL(queries);
+		JSONArray myCountsJSONArray = result.get("my_counts");
+		JSONArray myPhotosJSONArray = result.get("my_photos");
+		JSONArray myCheckinsJSONArray = result.get("my_checkins");
+		
+		int gameCount;
+		// loop through the serCounts results and create a Friend object with the data, initialize photo and checkin counts to 0
+		for (int i=0; i<myCountsJSONArray.length(); i++) {
+			JSONObject obj = myCountsJSONArray.getJSONObject(i);
+			
+			if (!obj.get("games").toString().isEmpty()) {  //TODO: ask why this has to have the .toString on it when it was already showing as a string type
+				gameCount = 1;
+				String games = obj.get("games").toString();
+				for(int j=0; j<games.length(); j++) {
+				    if(games.charAt(j) == ',') gameCount++;
+				}
+			} else {
+				gameCount = 0;
+			}
+			
+			Friend f = new Friend(obj.get("uid").toString(), 
+								  obj.get("name").toString(), 
+								  obj.get("pic_square").toString(), 
+								  obj.get("friend_count").toString(), 
+								  obj.get("wall_count").toString(),
+								  obj.get("likes_count").toString(),
+								  obj.get("notes_count").toString(),
+								  obj.get("games").toString(),
+								  gameCount,
+								  "0",
+								  "0",
+								  0);
+			user.put(f.getUid(), f);
+		}
+		// loop through the photo info, pull the friend from friends using the "owner" property and tally the number of photos
+		for (int i=0; i<myPhotosJSONArray.length(); i++) {
+			JSONObject obj = myPhotosJSONArray.getJSONObject(i);
+			Friend f = user.get(obj.get("owner"));
+			f.setPhotoCount(Integer.toString(Integer.parseInt(f.getPhotoCount()) + Integer.parseInt(obj.get("photo_count").toString())));  //TODO: there is probably a cleaner way to do this without all the casting but it was saying it was an object if I didn't use .toString()
+		}
+		for (int i=0; i<myCheckinsJSONArray.length(); i++) {
+			JSONObject obj = myCheckinsJSONArray.getJSONObject(i);
+			Friend f = user.get(obj.get("author_uid"));
+			f.setCheckinCount(Integer.toString(Integer.parseInt(f.getCheckinCount()) + 1));
+		}
+		
+		calcScore(user);
+		
+		return user;
 	}
 
 	public Map<String, Friend> getData(Facebook fb) throws FacebookException, JSONException {
@@ -65,7 +125,6 @@ public class FriendListBuilder {
 								  0);
 			friends.put(f.getUid(), f);
 		}
-		System.out.println("friends: " + friends.get("123999").getFriendCount());
 		// loop through the photo info, pull the friend from friends using the "owner" property and tally the number of photos
 		for (int i=0; i<photoInfoJSONArray.length(); i++) {
 			JSONObject obj = photoInfoJSONArray.getJSONObject(i);
@@ -95,15 +154,6 @@ public class FriendListBuilder {
 			int cc = (friend.getCheckinCount() != "null") ? Integer.parseInt(friend.getCheckinCount()) : 0;
 			
 			friend.setScore(fc+wc+lc+nc+gc+pc+cc);
-			System.out.println("name: " + friend.getName() + 
-							   " | " + fc + 
-							   " | " + wc + 
-							   " | " + lc + 
-							   " | " + nc + 
-							   " | " + gc + 
-							   " | " + pc + 
-							   " | " + cc +
-							   " | score: " + friend.getScore());
 		}
 	}
 	
